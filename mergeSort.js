@@ -19,15 +19,27 @@ function merge(left, right) {
 }
 
 function mergeSort(arr) {
-    if (arr.length <= 1) {
-        return arr;
+  if (arr.length <= 1) {
+    return arr;
+  }
+
+  let subarrays = arr.map((el) => [el]);
+
+  while (subarrays.length > 1) {
+    let temp = [];
+
+    for (let i = 0; i < subarrays.length; i += 2) {
+      if (i + 1 < subarrays.length) {
+        temp.push(merge(subarrays[i], subarrays[i + 1]));
+      } else {
+        temp.push(subarrays[i]);
+      }
     }
 
-    const mid = Math.floor(arr.length / 2);
-    const left = mergeSort(arr.slice(0, mid));
-    const right = mergeSort(arr.slice(mid));
+    subarrays = temp;
+  }
 
-    return merge(left, right);
+  return subarrays[0];
 }
 
 function hitungWaktuEksekusi(arraySize) {
@@ -52,5 +64,4 @@ sizes.forEach(size => {
 });
 let formattedTotalExecutionTime = totalWaktuEksekusi.toFixed(3);
 
-// Output the total execution time
 console.log(`Total execution time: ${formattedTotalExecutionTime} ms`);
